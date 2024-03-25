@@ -8,13 +8,14 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 app.set('layout', 'layouts/layout')
-
 app.use(expressLayouts)
 app.use(express.static('public'))
+app.use(express.urlencoded({ limit: '10mb', extended: false }))
 
 
 const mongoose = require('mongoose')
@@ -25,6 +26,8 @@ db.once('open', () => console.log('Connected to mongosose'))
 
 
 app.use('/', indexRouter)
+app.use('/authors', authorRouter)
+
 
 
 // app.get('/',(req,res) => { res.status(200).send('ok')    })
